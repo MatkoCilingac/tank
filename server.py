@@ -2,7 +2,7 @@ import socket
 from web_stranka import web_stranka
 from motory import otacanie_hlavy, otacanie_tanku, dopredu_dozadu
 from ledky import nastav_jas_led
-from zvuk import vystrel
+
 
 def spusti_server():
     addr = socket.getaddrinfo("0.0.0.0", 80)[0][-1]
@@ -41,8 +41,7 @@ def spusti_server():
                 led = params.split("&")[0].split("=")[1]
                 jas = int(params.split("&")[1].split("=")[1])
                 nastav_jas_led(led, jas)
-            elif "/shoot" in request:
-                vystrel()
+            
 
             cl.send("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n")
             cl.send(web_stranka())

@@ -17,16 +17,12 @@ def web_stranka():
     <div class="container">
         <div class="slider-container">
             <label for="dopredu_dozadu">Dopredu - Dozadu</label>
-            <input type="range" id="dopredu_dozadu" class="slider vertical-slider" min="-1023" max="1023" value="0" oninput="updateDopreduDozadu(this.value)">
+            <input type="range" id="dopredu_dozadu" class="slider vertical-slider" min="-1023" max="1023" value="0" oninput="updateOtacanieTanku(this.value)">
         </div>
 
         <div class="slider-container">
             <label for="otacanie_tanku">Doprava - Doľava</label>
-            <input type="range" id="otacanie_tanku" class="slider" min="-1023" max="1023" value="0" oninput="updateOtacanieTanku(this.value)">
-        </div>
-        
-        <div class="slider-container">
-            <button onclick="shoot()">STREĽBA</button>
+            <input type="range" id="otacanie_tanku" class="slider" min="-1023" max="1023" value="0" oninput="updateDopreduDozadu(this.value)">
         </div>
 
         <div class="slider-container">
@@ -53,9 +49,6 @@ def web_stranka():
             fetch(`/otacanie_hlavy?rychlost=${rychlost}&smer=${smer}`);
         }
         
-        function shoot() {
-            fetch(`/shoot`);
-        }
 
         function updateOtacanieTanku(value) {
             fetch(`/otacanie_tanku?value=${value}`);

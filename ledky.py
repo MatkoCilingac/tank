@@ -1,32 +1,29 @@
-from machine import Pin
-import neopixel
-from config import PREDNA_RGB_PIN, ZADNA_RGB_PIN, POCET_LED
+from machine import Pin, PWM
+from config import PREDNA_LED_R, PREDNA_LED_G, PREDNA_LED_B, ZADNA_LED_R
 
-predna_rgb_pin = Pin(PREDNA_RGB_PIN, Pin.OUT)
-zadna_rgb_pin = Pin(ZADNA_RGB_PIN, Pin.OUT)
-
-predna_led_matica = neopixel.NeoPixel(predna_rgb_pin, POCET_LED)
-zadna_led_matica = neopixel.NeoPixel(zadna_rgb_pin, POCET_LED)
+predna_r = PWM(Pin(PREDNA_LED_R), freq=1000)
+predna_g = PWM(Pin(PREDNA_LED_G), freq=1000)
+predna_b = PWM(Pin(PREDNA_LED_B), freq=1000)
+zadna_r = PWM(Pin(ZADNA_LED_R), freq=1000)
 
 
 def nastav_jas_led(led, jas):
-    jas = min(max(jas, 0), 255)
+    jas = min(max(int(jas), 0), 255)
+
+    pwm = int(jas * 1023 / 255)
 
     if led == "front":
-        for i in range(POCET_LED):
-            predna_led_matica[i] = (jas, jas, jas)
-        predna_led_matica.write()
+        predna_r.duty(pwm)
+        predna_g.duty(pwm)
+        predna_b.duty(pwm)
 
     elif led == "rear":
-        for i in range(POCET_LED):
-            zadna_led_matica[i] = (jas, 0, 0)
-        zadna_led_matica.write()
+        zadna_r.duty(pwm)
 
 
 def vypni_ledky():
-    for i in range(POCET_LED):
-        predna_led_matica[i] = (0, 0, 0)
-        zadna_led_matica[i] = (0, 0, 0)
+    predna_r.duty(0)
+    predna_g.duty(0)
+    predna_b.duty(0)
 
-    predna_led_matica.write()
-    zadna_led_matica.write()
+    zadna_r.duty(0)
